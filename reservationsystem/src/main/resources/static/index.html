@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Reservation System</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #34495e;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px var(--shadow);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 3px solid var(--secondary);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: var(--secondary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--white);
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        .btn-warning:hover {
+            background: #d68910;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .message.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #ddd;
+            transition: background 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 1.1rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            color: var(--white);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn-danger, .btn-warning {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🏨 Hotel Reservation System</h1>
+        <p class="subtitle">Manage your hotel bookings efficiently</p>
+    </header>
+
+    <div class="dashboard">
+        <!-- Create Reservation Card -->
+        <div class="card">
+            <h2>📝 Create Reservation</h2>
+            <div id="createMessage" class="message"></div>
+            <form id="createForm">
+                <div class="form-group">
+                    <label for="guestName">Guest Name</label>
+                    <input type="text" id="guestName" required placeholder="Enter guest name">
+                </div>
+                <div class="form-group">
+                    <label for="roomNumber">Room Number</label>
+                    <input type="number" id="roomNumber" required placeholder="Enter room number">
+                </div>
+                <div class="form-group">
+                    <label for="contactNumber">Contact Number</label>
+                    <input type="tel" id="contactNumber" required placeholder="Enter contact number">
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Create Reservation</button>
+            </form>
+        </div>
+
+        <!-- Get Room Number Card -->
+        <div class="card">
+            <h2>🔍 Find Room Number</h2>
+            <div id="roomMessage" class="message"></div>
+            <form id="roomForm">
+                <div class="form-group">
+                    <label for="searchReservationId">Reservation ID</label>
+                    <input type="number" id="searchReservationId" required placeholder="Enter reservation ID">
+                </div>
+                <div class="form-group">
+                    <label for="searchGuestName">Guest Name</label>
+                    <input type="text" id="searchGuestName" required placeholder="Enter guest name">
+                </div>
+                <button type="submit" class="btn btn-success btn-full">Find Room</button>
+            </form>
+            <div id="roomResult" style="margin-top: 20px;"></div>
+        </div>
+
+        <!-- Update Reservation Card -->
+        <div class="card">
+            <h2>✏️ Update Reservation</h2>
+            <div id="updateMessage" class="message"></div>
+            <form id="updateForm">
+                <div class="form-group">
+                    <label for="updateId">Reservation ID</label>
+                    <input type="number" id="updateId" required placeholder="Enter reservation ID">
+                </div>
+                <div class="form-group">
+                    <label for="updateGuestName">New Guest Name</label>
+                    <input type="text" id="updateGuestName" required placeholder="Enter new guest name">
+                </div>
+                <div class="form-group">
+                    <label for="updateRoomNumber">New Room Number</label>
+                    <input type="number" id="updateRoomNumber" required placeholder="Enter new room number">
+                </div>
+                <div class="form-group">
+                    <label for="updateContactNumber">New Contact Number</label>
+                    <input type="tel" id="updateContactNumber" required placeholder="Enter new contact number">
+                </div>
+                <button type="submit" class="btn btn-warning btn-full">Update Reservation</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Reservations Section -->
+    <div class="card">
+        <h2>📋 All Reservations</h2>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="totalReservations">0</div>
+                <div class="stat-label">Total Reservations</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="totalRooms">0</div>
+                <div class="stat-label">Unique Rooms</div>
+            </div>
+        </div>
+        <div class="loading" id="loading">Loading reservations...</div>
+        <div class="table-container">
+            <table id="reservationsTable">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Guest Name</th>
+                    <th>Room Number</th>
+                    <th>Contact Number</th>
+                    <th>Reservation Date</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="reservationsBody">
+                <tr>
+                    <td colspan="6" class="no-data">No reservations found. Create your first reservation!</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Auto-detect API URL based on environment
+const API_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:8080/api/reservations'
+    : `${window.location.origin}/api/reservations`;
+
+
+    // Load reservations on page load
+    window.addEventListener('DOMContentLoaded', loadReservations);
+
+    // Create Reservation
+    document.getElementById('createForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = {
+            guestName: document.getElementById('guestName').value,
+            roomNumber: parseInt(document.getElementById('roomNumber').value),
+            contactNumber: document.getElementById('contactNumber').value
+        };
+
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showMessage('createMessage', data.message, 'success');
+                document.getElementById('createForm').reset();
+                loadReservations();
+            } else {
+                showMessage('createMessage', data.message, 'error');
+            }
+        } catch (error) {
+            showMessage('createMessage', 'Error creating reservation: ' + error.message, 'error');
+        }
+    });
+
+    // Find Room Number
+    document.getElementById('roomForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const reservationId = document.getElementById('searchReservationId').value;
+        const guestName = document.getElementById('searchGuestName').value;
+
+        try {
+            const response = await fetch(`${API_URL}/room?reservationId=${reservationId}&guestName=${encodeURIComponent(guestName)}`);
+            const data = await response.json();
+
+            if (data.success) {
+                document.getElementById('roomResult').innerHTML = `
+                    <div style="background: #d4edda; padding: 15px; border-radius: 8px; color: #155724; text-align: center; font-weight: bold; font-size: 1.2rem;">
+                        🎯 Room Number: ${data.roomNumber}
+                    </div>
+                `;
+                showMessage('roomMessage', data.message, 'success');
+            } else {
+                document.getElementById('roomResult').innerHTML = '';
+                showMessage('roomMessage', data.message, 'error');
+            }
+        } catch (error) {
+            showMessage('roomMessage', 'Error finding room: ' + error.message, 'error');
+        }
+    });
+
+    // Update Reservation
+    document.getElementById('updateForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('updateId').value;
+        const formData = {
+            guestName: document.getElementById('updateGuestName').value,
+            roomNumber: parseInt(document.getElementById('updateRoomNumber').value),
+            contactNumber: document.getElementById('updateContactNumber').value
+        };
+
+        try {
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showMessage('updateMessage', data.message, 'success');
+                document.getElementById('updateForm').reset();
+                loadReservations();
+            } else {
+                showMessage('updateMessage', data.message, 'error');
+            }
+        } catch (error) {
+            showMessage('updateMessage', 'Error updating reservation: ' + error.message, 'error');
+        }
+    });
+
+    // Load all reservations
+    async function loadReservations() {
+        const loading = document.getElementById('loading');
+        loading.classList.add('show');
+
+        try {
+            const response = await fetch(API_URL);
+            const reservations = await response.json();
+
+            const tbody = document.getElementById('reservationsBody');
+
+            if (reservations.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="no-data">No reservations found. Create your first reservation!</td></tr>';
+            } else {
+                tbody.innerHTML = reservations.map(reservation => `
+                    <tr>
+                        <td>${reservation.reservationId}</td>
+                        <td>${reservation.guestName}</td>
+                        <td>${reservation.roomNumber}</td>
+                        <td>${reservation.contactNumber}</td>
+                        <td>${new Date(reservation.reservationDate).toLocaleString()}</td>
+                        <td>
+                            <div class="actions">
+                                <button class="btn btn-danger" onclick="deleteReservation(${reservation.reservationId})">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            // Update stats
+            document.getElementById('totalReservations').textContent = reservations.length;
+            const uniqueRooms = new Set(reservations.map(r => r.roomNumber)).size;
+            document.getElementById('totalRooms').textContent = uniqueRooms;
+
+        } catch (error) {
+            console.error('Error loading reservations:', error);
+            document.getElementById('reservationsBody').innerHTML =
+                '<tr><td colspan="6" class="no-data">Error loading reservations. Please try again.</td></tr>';
+        } finally {
+            loading.classList.remove('show');
+        }
+    }
+
+    // Delete reservation
+    async function deleteReservation(id) {
+        if (!confirm('Are you sure you want to delete this reservation?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/${id}`, {
+                method: 'DELETE'
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                loadReservations();
+                alert('Reservation deleted successfully!');
+            } else {
+                alert('Error: ' + data.message);
+            }
+        } catch (error) {
+            alert('Error deleting reservation: ' + error.message);
+        }
+    }
+
+    // Show message helper
+    function showMessage(elementId, message, type) {
+        const messageDiv = document.getElementById(elementId);
+        messageDiv.textContent = message;
+        messageDiv.className = `message ${type} show`;
+
+        setTimeout(() => {
+            messageDiv.classList.remove('show');
+        }, 5000);
+    }
+</script>
+</body>
+</html>
