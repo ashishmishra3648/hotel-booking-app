@@ -74,10 +74,13 @@ hotel-booking-app/
 └── README.md
 
 ## Output 
+<img width="1862" height="378" alt="image" src="https://github.com/user-attachments/assets/9613b9ca-2cbb-497a-aa84-6f482c9398f2" />
+<img width="1767" height="792" alt="image" src="https://github.com/user-attachments/assets/4abfc399-5355-4e4d-a6c8-19cb2100bf7f" />
+<img width="1791" height="852" alt="image" src="https://github.com/user-attachments/assets/90501944-99c6-4503-9e1c-24afe652536a" />
 
-<img width="1863" height="902" alt="image" src="https://github.com/user-attachments/assets/77823dd1-c848-490c-9962-ec9c6c3da900" />
 
-<img width="1867" height="707" alt="image" src="https://github.com/user-attachments/assets/00bbaaf7-2038-45d6-a6ed-a9dc0da2aace" />
+
+
 
 
 ## 🧠 Future Upgrades
