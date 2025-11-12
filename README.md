@@ -85,12 +85,8 @@ hotel-booking-app/
 
 ## 🧠 Future Upgrades
 Add login/authentication system
-
 Advanced analytics dashboard
-
 Online payment integration
-
 Multi-user role (Admin/Customer)
 Maven
-
 Git & GitHub
