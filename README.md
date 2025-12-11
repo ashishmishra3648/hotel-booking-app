@@ -80,9 +80,6 @@ hotel-booking-app/
 
 
 
-
-
-
 ## 🧠 Future Upgrades
 Add login/authentication system
 Advanced analytics dashboard
