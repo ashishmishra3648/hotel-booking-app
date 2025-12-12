@@ -35,7 +35,6 @@ public class ReservationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-
     @GetMapping
     public ResponseEntity<List<Reservation>> getAllReservations() {
         List<Reservation> reservations = reservationService.getAllReservations();
