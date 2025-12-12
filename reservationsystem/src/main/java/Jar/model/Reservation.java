@@ -33,7 +33,6 @@ public class Reservation {
         this.contactNumber = contactNumber;
         this.reservationDate = LocalDateTime.now();
     }
-
     public Integer getReservationId() {
         return reservationId;
     }
